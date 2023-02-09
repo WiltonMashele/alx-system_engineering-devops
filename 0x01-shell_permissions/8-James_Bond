@@ -1,3 +1,2 @@
-chmod u-rwx
-chmod g-rwx
+chmod ug-rwx
 chmod o+rwx
