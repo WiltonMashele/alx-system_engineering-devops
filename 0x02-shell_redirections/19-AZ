@@ -1,2 +1,2 @@
 #!/bin/bash
-echo "input" | tr [Aac] [Zce]
+tr "A" "Z" | tr "C" "e"
