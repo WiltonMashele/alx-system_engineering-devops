@@ -6,4 +6,6 @@
 
 3. Displaying the content of /etc/passwd and /etc/hosts.
 
-4. Displaying the last 10 lines of /etc/passwd
+4. Displaying the last 10 lines of /etc/passwd.
+
+5. Displaying the first 10 lines of /etc/passwd
