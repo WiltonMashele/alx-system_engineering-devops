@@ -4,4 +4,6 @@
 
 2. Let's display a file Display the content of the /etc/passwd file.
 
-3. Display the content of /etc/passwd and /etc/hosts.
+3. Displaying the content of /etc/passwd and /etc/hosts.
+
+4. Displaying the last 10 lines of /etc/passwd
