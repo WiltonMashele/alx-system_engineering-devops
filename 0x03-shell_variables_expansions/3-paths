@@ -1,2 +1,2 @@
 #!/bin/bash
-path_var=$PATH
+echo $path_var | tr ":" "\\n"
