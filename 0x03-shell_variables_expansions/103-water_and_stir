@@ -1,2 +1,2 @@
 #!/bin/bash
-echo "$(( ${WATER} + ${STIR} ))"
+echo "The result of adding WATER and STIR is: $result_bestchol in base bestchol."
