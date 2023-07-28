@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Displays bash processes and their PIDs
+# shellcheck disable=SC2009
+ps -faux | grep bash
