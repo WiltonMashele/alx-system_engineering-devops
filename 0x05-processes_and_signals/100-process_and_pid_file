@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# This script captures signals, responding with messages and creating a file containing its own process ID
+keepRunning=0
+printf "$BASHPID\n" > /var/run/myscript.pid
+trap 'printf "I hate the kill command\n"; rm /var/run/myscript.pid; exit 0;' SIGTERM
+trap 'printf "Y U no love me?!\n"' SIGINT
+trap 'rm /var/run/myscript.pid; exit 0;' SIGQUIT
+while [ $keepRunning ]; do
+	printf 'To infinity and beyond\n'
+	sleep 2
+done

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# This is a bash script that continuously prints "To infinity and beyond"
+while :
+do
+	printf "To infinity and beyond\n"
+	sleep 2
+done

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# This script prints "To infinity and beyond" and reacts to a termination signal with "I am invincible!!!"
+trap 'printf "I am invincible!!!\n"' SIGTERM
+counter=1
+while [ $counter -lt 2 ]
+do
+	printf "To infinity and beyond\n"
+	sleep 2
+done

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# This script continuously appends a string to a file
+while :; do
+  printf "I am alive!\n" >> /tmp/my_process
+  sleep 2
+done

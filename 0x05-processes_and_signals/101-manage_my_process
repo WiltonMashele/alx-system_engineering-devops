@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# This script controls a daemon
+if [ "$#" -eq "1" ]; then
+  if [ "$1" = "start" ]; then
+    ./manage_my_process &
+    printf "%s\n" "$!" > /var/run/my_process.pid
+    printf "manage_my_process started\n"
+  elif [ "$1" = "stop" ]; then
+    if [ -f "/var/run/my_process.pid" ]; then
+      kill "$(cat /var/run/my_process.pid)"
+    fi
+    rm /var/run/my_process.pid
+    printf "manage_my_process stopped\n"
+  elif [ "$1" = "restart" ]; then
+    # Stop the program
+    if [ -f "/var/run/my_process.pid" ]; then
+      kill "$(cat /var/run/my_process.pid)"
+    fi
+    # Start the program
+    ./manage_my_process &
+    printf "%s\n" "$!" > /var/run/my_process.pid
+    printf "manage_my_process restarted\n"
+  else
+    printf "Usage: manage_my_process {start|stop|restart}\n"
+  fi
+else
+  printf "Usage: manage_my_process {start|stop|restart}\n"
+fi
