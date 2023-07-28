@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
 # displays a list of currently running processess
+# It includes processes from every user, even those that may not be associated with a terminal.
+# The output is structured in a user-friendly manner.
+# The script also represents the hierarchy of the processes.
+
 ps u -A -H
