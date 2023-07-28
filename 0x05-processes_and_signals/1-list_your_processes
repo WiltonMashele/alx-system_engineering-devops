@@ -4,4 +4,4 @@
 # The output is structured in a user-friendly manner.
 # The script also represents the hierarchy of the processes.
 
-ps u -A -H
+ps -auxf
