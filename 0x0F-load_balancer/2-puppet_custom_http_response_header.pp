@@ -1,10 +1,23 @@
 # automating the task of creating a custom HTTP header response
-include 'apt'
-package { 'nginx': ensure => installed, require => Class['apt'], }
-file_line { 'nginx_custom_header':
-  path   => '/etc/nginx/sites-available/default',
-  line   => '    add_header X-Served-By $hostname;',
-  after  => '    listen 80 default_server;',
-  notify => Service['nginx'],
+class nginx_setup {
+
+  package { 'nginx':
+    ensure => installed,
+    before => File_line['add_header'],
+  }
+
+  file_line { 'add_header':
+    path => '/etc/nginx/nginx.conf',
+    line => '    add_header X-Served-By "${hostname}";',
+    match => '^    include /etc/nginx/sites-enabled/\*;$',
+    after => Service['nginx'],
+  }
+
+  service { 'nginx':
+    ensure => running,
+    enable => true,
+    require => Package['nginx'],
+  }
 }
-service { 'nginx': ensure => running, enable => true, require => Package['nginx'], }
+
+include nginx_setup
