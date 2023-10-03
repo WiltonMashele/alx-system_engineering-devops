@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+#configure web-02 to be identical to web-01.
+HOSTNAME=$(hostname)
+ERROR_PAGE_CONFIG="error_page 404 \/custom_404.html;\nlocation \/redirect_me {\nreturn 301 \$scheme:\/\/www.google.com;"
+HEADER_CONFIG="server {\n\tadd_header X-Served-By $HOSTNAME;"
+
+apt-get update -y
+apt-get install nginx -y
+echo "Hello World!" > /usr/share/nginx/html/index.html
+mkdir -p /var/www/html
+echo "Ceci n'est pas une page" > /var/www/html/custom_404.html
+sudo sed -i -E "s/^[^#]+location \/ \{/$ERROR_PAGE_CONFIG/" /etc/nginx/sites-available/default
+sudo sed -i -E "s/^server \{/$HEADER_CONFIG/" /etc/nginx/sites-available/default
+sudo service nginx start
