@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 #a Bash script that configuresrver
-if [ -x "$(command -v nginx)" ]; the
-  sed -i -e 's/listen [::]:80 default_server;/listen 80 default_server;/' /etc/nginx/sites-enabled/default
-  service nginx restart
-  echo 'Nginx configured to listen on port 80 of all active IPv4 IPs.'
-else
-  echo 'Error: Nginx is not installed.' >&2
-  exit 1
-fi
+nginx_config_file="/etc/nginx/sites-enabled/default"
+sed -i "s/listen 8080 default_server;/listen 80 default_server;/" "$nginx_config_file"
+sed -i "s/listen \[::\]:8080 default_server ipv6only=on;/listen \[::\]:80 default_server;/" "$nginx_config_file"
+sed -i "s/ ipv6only=on//" "$nginx_config_file"
+service nginx restart
