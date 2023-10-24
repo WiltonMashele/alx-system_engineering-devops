@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+#a Bash script that configures a server
+nginx_config_file="/etc/nginx/sites-enabled/default"
+sed -i "s/listen 8080 default_server;/listen 80 default_server;/" "$nginx_config_file"
+sed -i "s/listen \[::\]:8080 default_server ipv6only=on;/listen \[::\]:80 default_server;/" "$nginx_config_file"
+sed -i "s/ ipv6only=on//" "$nginx_config_file"
+service nginx restart
