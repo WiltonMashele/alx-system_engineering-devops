@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
-#a Bash script that configuresrver
-nginx_config_file="/etc/nginx/sites-enabled/default"
-sed -i "s/listen 8080 default_server;/listen 80 default_server;/" "$nginx_config_file"
-sed -i "s/listen \[::\]:8080 default_server ipv6only=on;/listen \[::\]:80 default_server;/" "$nginx_config_file"
-sed -i "s/ ipv6only=on//" "$nginx_config_file"
-service nginx restart
+# Script to set the port 80 for Nginx
+sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+sudo service nginx start
