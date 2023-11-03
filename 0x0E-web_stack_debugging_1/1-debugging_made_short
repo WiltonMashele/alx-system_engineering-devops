@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 # Script to set Nginx to listen on port 80
 sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+sudo service nginx stop
 sudo service nginx start
-if ! sudo service nginx status | grep -q "nginx is running"; then
-  echo "nginx is not running"
-fi
