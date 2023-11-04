@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
-if ! command -v ufw &> /dev/null; then
-    sudo apt-get install ufw
-fi
 sudo sed -i 's/IPV6=.*/IPV6=yes/' /etc/default/ufw
 sudo ufw --force reset
 sudo ufw default deny incoming
