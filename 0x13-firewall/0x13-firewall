@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# installing the ufw firewall and setup a few rules on web-01
-
-apt-get -y install ufw
-sed -i 's/IPV6=.*/IPV6=yes/' /etc/default/ufw
-ufw --force disable
-ufw --force reset
-ufw default deny incoming
-ufw default allow outgoing
-ufw allow 22/tcp
-ufw allow 443/tcp
-ufw allow 80/tcp
-ufw --force enable
+if ! command -v ufw &> /dev/null; then
+    sudo apt-get install ufw
+fi
+sudo sed -i 's/IPV6=.*/IPV6=yes/' /etc/default/ufw
+sudo ufw --force reset
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw allow 22/tcp
+sudo ufw allow 443/tcp
+sudo ufw allow 80/tcp
+sudo ufw enable
+sudo ufw status verbose
