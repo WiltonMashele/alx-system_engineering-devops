@@ -8,7 +8,7 @@ import urllib.request as fetcher
 def fetch_user_data(user_id):
     endpoint = 'https://jsonplaceholder.typicode.com'
     name_url = f'/users/{user_id}'
-    todos_url = f'{name_url}/todos'
+    todos_url = f'/todos?userId={user_id}'
 
     try:
         with fetcher.urlopen(endpoint + name_url) as res:
@@ -29,7 +29,8 @@ def main():
         print("Usage: {} <employee_id>".format(sys.argv[0]))
         sys.exit(1)
 
-    user_id = sys.argv[1]
+    user_id = int(sys.argv[1])  # Convert to an integer
+
     user, todos = fetch_user_data(user_id)
 
     completed_tasks = [task for task in todos if task["completed"]]
