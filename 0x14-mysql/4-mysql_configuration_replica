@@ -1,13 +1,23 @@
 # Copyright (c) 2014-2023, Oracle and its affiliates.
 #
-# This software is distributed under the GNU General Public License, version 2.0,
-# as published by the Free Software Foundation. You are free to redistribute and modify it.
+# This software is distributed under the GNU General Public License, 
+# version 2.0,as published by the Free Software Foundation. 
+# You are free to redistribute and modify it.
 #
-# This program is also bundled with specific software, such as OpenSSL, which is licensed separately. The MySQL authors grant an additional permission to link this program and any derived works with separately licensed software included with MySQL.
-#
-# While this program is distributed in the hope of being useful, it comes without any warranty, not even the implied warranties of merchantability or fitness for a particular purpose. For more details, refer to the GNU General Public License, version 2.0.
-#
-# If you haven't received a copy of the GNU General Public License along with this program, please contact the Free Software Foundation, Inc., at 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
+# This program is also bundled with specific software, such as OpenSSL, 
+# which is licensed separately. 
+# 
+# The MySQL authors grant an additional permission to link this program and 
+# any derived works with separately licensed software included with MySQL.
+# 
+# While this program is distributed in the hope of being useful, 
+# it comes without any warranty, not even the implied warranties of 
+# merchantability or fitness for a particular purpose. 
+# 
+# For more details, refer to the GNU General Public License, version 2.0.
+# If you haven't received a copy of the GNU General Public License 
+# along with this program, please contact the Free Software Foundation, 
+# Inc., at 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 
 #
 # MySQL Server Configuration File
