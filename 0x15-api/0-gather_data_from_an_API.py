@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """Returns information about the employee's TODO list progress."""
+
 import json
 import sys
 import urllib.request as fetcher
