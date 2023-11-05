@@ -11,5 +11,7 @@ if __name__ == "__main__":
 
     completed = [t["title"] for t in todos if t["completed"]]
     task_count = len(todos)
-    print(f"Employee {user['name']} is done with tasks({len(completed)}/{task_count}):")
+    print(
+        f"Employee {user['name']} is done with tasks({len(completed)}/{task_count}):"
+    )
     [print(f"\t {c}") for c in completed]
