@@ -5,11 +5,13 @@ import json
 import requests
 import sys
 
+
 def export_tasks_to_json(user_id, tasks):
     user_tasks = {str(user_id): tasks}
     filename = f'{user_id}.json'
     with open(filename, mode='w') as file:
         json.dump(user_tasks, file)
+
 
 if __name__ == "__main__":
     url = 'https://jsonplaceholder.typicode.com/'
