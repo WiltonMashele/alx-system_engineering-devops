@@ -1,5 +1,8 @@
 #!/usr/bin/python3
-"""Returns information about the employee's TODO list progress and exports data in CSV format."""
+"""
+Returns information about the employee's TODO list progress
+and exports data in CSV format.
+"""
 import csv
 import requests
 import sys
@@ -16,7 +19,8 @@ def main():
 
     csv_filename = f"{user_id}.csv"
     with open(csv_filename, mode='w', newline='') as csv_file:
-        fieldnames = ["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"]
+        fieldnames = [
+                "USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"]
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         writer.writeheader()
 
@@ -27,6 +31,7 @@ def main():
                 "TASK_COMPLETED_STATUS": "completed",
                 "TASK_TITLE": task["title"]
             })
+
 
     print(f"Number of tasks in CSV: OK")
 
