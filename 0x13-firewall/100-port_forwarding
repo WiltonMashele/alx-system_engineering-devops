@@ -1,26 +1,78 @@
-# This Bash script configures the firewall on web-01 to redirect
-# incoming traffic on port 8080/TCP to port 80/TCP.
+#
+# Before UFW Rules
+#
+# These rules should be executed before the UFW command line adds any rules.
+# If you need to add custom rules, insert them into one of the following chains:
+#   ufw-before-input
+#   ufw-before-output
+#   ufw-before-forward
+#
 
-*filter
-:ufw-after-input - [0:0]
-:ufw-after-output - [0:0]
-:ufw-after-forward - [0:0]
-
-# Skip certain types of incoming packets
--A ufw-after-input -p udp --dport 137 -j ufw-skip-to-policy-input
--A ufw-after-input -p udp --dport 138 -j ufw-skip-to-policy-input
--A ufw-after-input -p tcp --dport 139 -j ufw-skip-to-policy-input
--A ufw-after-input -p tcp --dport 445 -j ufw-skip-to-policy-input
--A ufw-after-input -p udp --dport 67 -j ufw-skip-to-policy-input
--A ufw-after-input -p udp --dport 68 -j ufw-skip-to-policy-input
-
-# Skip broadcasting packets
--A ufw-after-input -m addrtype --dst-type BROADCAST -j ufw-skip-to-policy-input
-
-# Port redirection rule using NAT
 *nat
 :PREROUTING ACCEPT [0:0]
 -A PREROUTING -p tcp --dport 8080 -j REDIRECT --to-port 80
-COMMIT
 
+# Do not remove these mandatory lines to avoid errors
+*filter
+:ufw-before-input - [0:0]
+:ufw-before-output - [0:0]
+:ufw-before-forward - [0:0]
+:ufw-not-local - [0:0]
+# End of mandatory lines
+
+# Allow all traffic on the loopback interface
+-A ufw-before-input -i lo -j ACCEPT
+-A ufw-before-output -o lo -j ACCEPT
+
+# Quickly process packets for established connections
+-A ufw-before-input -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A ufw-before-output -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A ufw-before-forward -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+
+# Drop invalid packets and log them at medium or higher log levels
+-A ufw-before-input -m conntrack --ctstate INVALID -j ufw-logging-deny
+-A ufw-before-input -m conntrack --ctstate INVALID -j DROP
+
+# Allow specific ICMP codes for INPUT
+-A ufw-before-input -p icmp --icmp-type destination-unreachable -j ACCEPT
+-A ufw-before-input -p icmp --icmp-type source-quench -j ACCEPT
+-A ufw-before-input -p icmp --icmp-type time-exceeded -j ACCEPT
+-A ufw-before-input -p icmp --icmp-type parameter-problem -j ACCEPT
+-A ufw-before-input -p icmp --icmp-type echo-request -j ACCEPT
+
+# Allow specific ICMP codes for FORWARD
+-A ufw-before-forward -p icmp --icmp-type destination-unreachable -j ACCEPT
+-A ufw-before-forward -p icmp --icmp-type source-quench -j ACCEPT
+-A ufw-before-forward -p icmp --icmp-type time-exceeded -j ACCEPT
+-A ufw-before-forward -p icmp --icmp-type parameter-problem -j ACCEPT
+-A ufw-before-forward -p icmp --icmp-type echo-request -j ACCEPT
+
+# Allow DHCP client traffic
+-A ufw-before-input -p udp --sport 67 --dport 68 -j ACCEPT
+
+#
+# UFW Not Local Rules
+#
+-A ufw-before-input -j ufw-not-local
+
+# If the destination address is LOCAL, RETURN
+-A ufw-not-local -m addrtype --dst-type LOCAL -j RETURN
+
+# If the destination address is MULTICAST, RETURN
+-A ufw-not-local -m addrtype --dst-type MULTICAST -j RETURN
+
+# If the destination address is BROADCAST, RETURN
+-A ufw-not-local -m addrtype --dst-type BROADCAST -j RETURN
+
+# Drop all other non-local packets, and log them with rate limiting
+-A ufw-not-local -m limit --limit 3/min --limit-burst 10 -j ufw-logging-deny
+-A ufw-not-local -j DROP
+
+# Allow MULTICAST mDNS for service discovery (ensure the MULTICAST line above is uncommented)
+-A ufw-before-input -p udp -d 224.0.0.251 --dport 5353 -j ACCEPT
+
+# Allow MULTICAST UPnP for service discovery (ensure the MULTICAST line above is uncommented)
+-A ufw-before-input -p udp -d 239.255.255.250 --dport 1900 -j ACCEPT
+
+# Do not delete the 'COMMIT' line, or these rules won't be processed
 COMMIT
