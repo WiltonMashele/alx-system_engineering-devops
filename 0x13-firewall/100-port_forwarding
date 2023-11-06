@@ -1,11 +1,12 @@
 # This Bash script configures the firewall on web-01 to redirect
-# port 8080/TCP to port 80/TCP.
+# incoming traffic on port 8080/TCP to port 80/TCP.
 
 *filter
 :ufw-after-input - [0:0]
 :ufw-after-output - [0:0]
 :ufw-after-forward - [0:0]
 
+# Skip certain types of incoming packets
 -A ufw-after-input -p udp --dport 137 -j ufw-skip-to-policy-input
 -A ufw-after-input -p udp --dport 138 -j ufw-skip-to-policy-input
 -A ufw-after-input -p tcp --dport 139 -j ufw-skip-to-policy-input
@@ -13,9 +14,10 @@
 -A ufw-after-input -p udp --dport 67 -j ufw-skip-to-policy-input
 -A ufw-after-input -p udp --dport 68 -j ufw-skip-to-policy-input
 
+# Skip broadcasting packets
 -A ufw-after-input -m addrtype --dst-type BROADCAST -j ufw-skip-to-policy-input
 
-# Port redirection rule
+# Port redirection rule using NAT
 *nat
 :PREROUTING ACCEPT [0:0]
 -A PREROUTING -p tcp --dport 8080 -j REDIRECT --to-port 80
