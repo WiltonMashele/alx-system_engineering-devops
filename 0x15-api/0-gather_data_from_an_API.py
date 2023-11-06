@@ -15,6 +15,7 @@ if __name__ == "__main__":
     task_count = len(todos)
     employee_name = user['name']
     progress_message = (
-        f"Employee {employee_name} is done with tasks({len(completed)}/{task_count}):")
+        f"Employee {employee_name} is done with tasks"
+        f"({len(completed)}/{task_count}):")
     print(progress_message)
     [print(f"\t {c}") for c in completed]
