@@ -1,44 +1,33 @@
 #!/usr/bin/python3
 """script to export data in the JSON format"""
-
-
 import json
 import requests
 import sys
 
-def get_user_info(userid):
+
+if __name__ == "__main":
     url = 'https://jsonplaceholder.typicode.com/'
 
-    user_url = f'{url}users/{userid}'
-    user_response = requests.get(user_url)
+    user_id = sys.argv[1]
+    user_endpoint = '{}users/{}'.format(url, user_id)
+    user_response = requests.get(user_endpoint)
     user_data = user_response.json()
     username = user_data.get('username')
     print(username)
 
-    todos_url = f'{url}todos?userId={userid}'
-    todos_response = requests.get(todos_url)
-    todos_data = todos_response.json()
+    todos_endpoint = '{}todos?userId={}'.format(url, user_id)
+    todos_response = requests.get(todos_endpoint)
+    tasks = todos_response.json()
+    print(tasks)
+    
     task_list = []
+    for task in tasks:
+        task_dict = {"task": task.get('title'),
+                     "completed": task.get('completed'),
+                     "username": username}
+        task_list.append(task_dict)
 
-
-    for task in todos_data:
-        task_info = {
-            "task": task.get('title'),
-            "completed": task.get('completed'),
-            "username": username
-        }
-        task_list.append(task_info)
-
-    user_tasks = {str(userid): task_list}
-    filename = f'{userid}.json'
-
+    user_tasks = {str(user_id): task_list}
+    filename = '{}.json'.format(user_id)
     with open(filename, mode='w') as file:
         json.dump(user_tasks, file)
-
-if __name__ == "__main":
-    if len(sys.argv) != 2:
-        print("Usage: python script.py <userid>")
-        sys.exit(1)
-
-    userid = sys.argv[1]
-    get_user_info(userid)
