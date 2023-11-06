@@ -11,6 +11,10 @@
 -A ufw-after-input -p udp --dport 68 -j ufw-skip-to-policy-input
 
 -A ufw-after-input -m addrtype --dst-type BROADCAST -j ufw-skip-to-policy-input
+
+# Port redirection rule
+-A PREROUTING -p tcp --dport 8080 -j REDIRECT --to-port 80
+
 COMMIT
 
 *nat
