@@ -22,13 +22,15 @@ def fetch_user_tasks(userid, username, url):
     tasks = response.json()
     task_list = []
     for task in tasks:
-        task_list.append([userid, username, task.get('completed'), task.get('title')])
+        task_list.append([userid, username, task.get('completed'),
+            task.get('title')])
     return task_list
 
 
 def save_tasks_to_csv(filename, task_list):
     with open(filename, mode='w', newline='') as employee_file:
-        employee_writer = csv.writer(employee_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
+        employee_writer = csv.writer(employee_file, delimiter=',', quotechar='"',
+                quoting=csv.QUOTE_ALL)
         for task in task_list:
             employee_writer.writerow(task)
 
