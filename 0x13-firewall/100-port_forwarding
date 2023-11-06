@@ -1,49 +1,19 @@
+*filter
+:ufw-after-input - [0:0]
+:ufw-after-output - [0:0]
+:ufw-after-forward - [0:0]
+
+-A ufw-after-input -p udp --dport 137 -j ufw-skip-to-policy-input
+-A ufw-after-input -p udp --dport 138 -j ufw-skip-to-policy-input
+-A ufw-after-input -p tcp --dport 139 -j ufw-skip-to-policy-input
+-A ufw-after-input -p tcp --dport 445 -j ufw-skip-to-policy-input
+-A ufw-after-input -p udp --dport 67 -j ufw-skip-to-policy-input
+-A ufw-after-input -p udp --dport 68 -j ufw-skip-to-policy-input
+
+-A ufw-after-input -m addrtype --dst-type BROADCAST -j ufw-skip-to-policy-input
+COMMIT
+
 *nat
 :PREROUTING ACCEPT [0:0]
 -A PREROUTING -p tcp --dport 8080 -j REDIRECT --to-port 80
-COMMIT
-
-*filter
-:ufw-before-input - [0:0]
-:ufw-before-output - [0:0]
-:ufw-before-forward - [0:0]
-:ufw-not-local - [0:0]
-
-# Allow all on loopback
--A ufw-before-input -i lo -j ACCEPT
--A ufw-before-output -o lo -j ACCEPT
-
-# Allow established and related connections
--A ufw-before-input -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
--A ufw-before-output -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
--A ufw-before-forward -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
-
-# Drop INVALID packets
--A ufw-before-input -m conntrack --ctstate INVALID -j DROP
-
-# Allow ICMP packets for troubleshooting
--A ufw-before-input -p icmp -j ACCEPT
--A ufw-before-forward -p icmp -j ACCEPT
-
-# Allow DHCP client to work
--A ufw-before-input -p udp --sport 67 --dport 68 -j ACCEPT
-
-# Allow SSH (Port 22) for incoming connections
--A ufw-before-input -p tcp --dport 22 -j ACCEPT
-
-# Allow HTTP (Port 80) and HTTPS (Port 443) for incoming connections
--A ufw-before-input -p tcp --dport 80 -j ACCEPT
--A ufw-before-input -p tcp --dport 443 -j ACCEPT
-
-# Allow mDNS for service discovery
--A ufw-before-input -p udp -d 224.0.0.251 --dport 5353 -j ACCEPT
-
-# Allow UPnP for service discovery
--A ufw-before-input -p udp -d 239.255.255.250 --dport 1900 -j ACCEPT
-
-# Default deny rules
--A ufw-before-input -j DROP
--A ufw-before-forward -j DROP
-
-# Don't delete the 'COMMIT' line or these rules won't be processed
 COMMIT
