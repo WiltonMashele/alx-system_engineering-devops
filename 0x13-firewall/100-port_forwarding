@@ -1,8 +1,8 @@
 #
-# Before UFW Rules
+# Pre-UFW Rules
 #
-# These rules should be executed before the UFW command line adds any rules.
-# If you need to add custom rules, insert them into one of the following chains:
+# These rules should be executed before UFW adds its command-line rules. If you
+# need to add custom rules, insert them into one of these chains:
 #   ufw-before-input
 #   ufw-before-output
 #   ufw-before-forward
@@ -12,7 +12,7 @@
 :PREROUTING ACCEPT [0:0]
 -A PREROUTING -p tcp --dport 8080 -j REDIRECT --to-port 80
 
-# Do not remove these mandatory lines to avoid errors
+# Do not remove these required lines to avoid errors
 *filter
 :ufw-before-input - [0:0]
 :ufw-before-output - [0:0]
