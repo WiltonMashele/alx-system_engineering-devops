@@ -5,9 +5,10 @@ Module to interact with Reddit API and retrieve subreddit information.
 import requests
 
 
-def get_subreddit_subscribers(subreddit):
+def number_of_subscribers(subreddit):
     """
     Return the total number of subscribers for a specified subreddit.
+    If not a valid subreddit, return 0.
     """
     headers = {"User-Agent": "0x16.API_advanced-WiltonMashele"}
     url = f"https://www.reddit.com/r/{subreddit}/about.json"
@@ -18,6 +19,8 @@ def get_subreddit_subscribers(subreddit):
         if response.status_code == 200:
             subscribers = response.json().get("data", {}).get("subscribers", 0)
             return subscribers
+        elif response.status_code == 404:
+            return 0
         else:
             print(f"Request failed with status code {response.status_code}")
             return 0
