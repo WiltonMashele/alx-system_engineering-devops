@@ -15,8 +15,7 @@ def get_subreddit_subscribers(subreddit):
     }
 
     try:
-        response = requests.get(url, headers=headers, 
-                allow_redirects=False)
+        response = requests.get(url, headers=headers, allow_redirects=False)
         response.raise_for_status()
         data = response.json()["data"]
         subscribers = data["subscribers"]
